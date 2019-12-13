@@ -1,0 +1,74 @@
+VARIABLES SECTION
+
+REM operation on sample names
+BUTTON <Change names> = Goto (change);
+BUTTON <Adding text> = Goto (concatenate);
+BUTTON <Export names> = Goto (export_names);
+
+REM Spectra operations
+BUTTON <Integration> = Goto (integrate);
+BUTTON <Calculator> = Goto (calculate);
+BUTTON <Interactive subtraction> = Goto (subtract);
+BUTTON <Automatic subtraction> = Goto (autosubtract);
+
+REM Data post-treatment
+BUTTON <Export to .dat> = Goto (export_dat);
+BUTTON <Bring back original file> = Goto (restore_original);
+BUTTON <Save state as> = Goto (save_state_as);
+
+STRING <MainMacroPath> = '';
+
+PROGRAM SECTION
+
+<MainMacroPath> = GetMacroPath ();
+
+Label (start);
+UserDialog ('0', STANDARD, TEXT:'All the procedures below are executed on scripts files.', BLANK, TEXT:'Sample names operations', BUTTON:'<Adding text>+<Export names>', BUTTON:'<Change names>', BLANK, TEXT:'Spectra operations', BUTTON:'<Automatic subtraction>+<Integration>', BUTTON:'<Interactive subtraction>+<Calculator>', BLANK, TEXT:'Data post-treatment', BUTTON:'<Export to .dat>+<Bring back original file>', BUTTON:'<Save state as>', BLANK);
+Goto (end);
+
+Label (change);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='ChangeNamesOfSample'});
+Goto (start);
+
+Label (concatenate);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='ConcatenateWithSampleNames'});
+Goto (start);
+
+Label (export_names);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='ExportSampleNames'});
+Goto (start);
+
+Label (integrate);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='IntegrateAll'});
+Goto (start);
+
+Label (export_dat);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='ExportToDat'});
+Goto (start);
+
+Label (calculate);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='SimpleCalculator'});
+Goto (start);
+
+Label (restore_original);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='RestoreOriginal'});
+Goto (start);
+
+Label (subtract);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='SubtractOneFromMany'});
+Goto (start);
+
+Label (save_state_as);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='SaveStateCopies'});
+Goto (start);
+
+Label (autosubtract);
+RunMacro (0, {MPT='<MainMacroPath>\scripts', MFN='AutoSubtractOneFromMany'});
+Goto (start);
+
+
+Label (end);
+
+
+
+PARAMETER SECTION
