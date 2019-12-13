@@ -1,4 +1,5 @@
-#Collection of Macros of Bruker OPUS
+#Collection of Macros for Bruker OPUS
+
 the collection makes it easier to perform operations on multiple files loaded in OPUS workspace
 
 ## How to use it?
