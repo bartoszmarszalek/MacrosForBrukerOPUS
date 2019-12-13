@@ -1,0 +1,18 @@
+VARIABLES SECTION
+
+FILE <File> = AB;
+
+PROGRAM SECTION
+
+REM this macro restores original data in opus files
+
+StartLoop ([<File>:AB], 0);
+Restore([<File>:AB], {});
+EndLoop (0);
+
+
+Message (’Original data has been restored’, ON_SCREEN, NO_TIMEOUT);
+
+
+PARAMETER SECTION
+

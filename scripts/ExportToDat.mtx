@@ -1,0 +1,46 @@
+VARIABLES SECTION
+
+STRING <Sample Name> = '';
+STRING <Save in> = '';
+NUMERIC <Left> = 4000;
+NUMERIC <Right> = 400;
+FILE <File> = AB;
+
+PROGRAM SECTION
+
+
+REM This macro exports spectrum points of a given range to a .dat file
+REM Show an User Dialog to select a file and to enter a user text
+
+<Save in> = GetMacroPath ();
+
+UserDialog ('0', STANDARD, FILE:[<File>:AB], EDIT:'<Save in>', EDIT:'<Left>', EDIT:'<Right>', BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK);
+
+
+StartLoop ([<File>:AB], 0);
+
+REM Read all parameters into a string array
+REM Read Sample Name
+<Sample Name>[0] = GetParameter ([<File>:AB], NAM);
+REM Read Sample Form
+<Sample Name>[1] = GetParameter ([<File>:AB], SNM);
+REM Read Operator Name
+<Sample Name>[2] = GetParameter ([<File>:AB], SFM);
+REM Read Running Sample Number
+<Sample Name>[3] = GetParameter ([<File>:AB], DAT);
+
+REM TextToFile ('<Save in>', 'ExportedDat.txt', '<Sample Name>[0]	<Sample Name>[1]	<Sample Name>[2]	<Sample Name>[3]', APPEND_TEXT);
+
+Cut ([<File>:Spec], {CFX=<Left>, CLX=<Right>});
+
+REM Baseline ([<$ResultFile 1>:Spec], {BME=2, BCO=1, BPO=64, BIO=10});
+
+SaveAs ([<File>:Spec], {DAP='<Save in> Work\dat <Sample Name>[1] L<Left> R<Right>', OEX='0', SAN='<Sample Name>[0] <Sample Name>[1] <Sample Name>[2].dat', COF=66,});
+
+EndLoop (0);
+
+Message (’Data table has been exported and saved in <Save in> Work\dat <Sample Name>[1] L<Left> R<Right>’, ON_SCREEN, NO_TIMEOUT);
+
+
+PARAMETER SECTION
+

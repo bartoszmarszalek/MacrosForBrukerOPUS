@@ -1,0 +1,33 @@
+VARIABLES SECTION
+
+STRING <Sample Name> = '';
+STRING <New name> = '';
+FILE <File> = AB;
+
+PROGRAM SECTION
+
+REM This macro changes sample name for every file loaded.
+REM Show an User Dialog to select a file and to enter a user text
+UserDialog ('0', STANDARD, FILE:[<File>:AB], EDIT:'<New name>', BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK);
+
+StartLoop ([<File>:AB], 0);
+
+REM Read all parameters into a string array
+REM Read Sample Name
+<Sample Name>[0] = GetParameter ([<File>:AB], SNM);
+REM Read Sample Form
+<Sample Name>[1] = GetParameter ([<File>:AB], SFM);
+REM Read Operator Name
+<Sample Name>[2] = GetParameter ([<File>:AB], CNM);
+REM Read Running Sample Number
+<Sample Name>[3] = GetParameter ([<File>:AB], RSN);
+REM Append user text to the Sample Name
+<Sample Name>[0] = '<New name>';
+REM Write new Sample Name back. Note that all parameters must be specified for this function!
+ParameterEditor ([<File>:AB], {CNM='<Sample Name>[2]', SNM='<Sample Name>[0]', SFM='<Sample Name>[1]', RSN=<Sample Name>[3], XTX='', YTX='', ZTX='', XAF=1.000000, YAF=1.000000, ZAF=1.000000});
+EndLoop (0);
+
+Message (’All of the sample names changed to: <New name>’, ON_SCREEN, NO_TIMEOUT);
+
+PARAMETER SECTION
+

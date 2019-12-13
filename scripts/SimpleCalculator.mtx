@@ -1,0 +1,38 @@
+VARIABLES SECTION
+
+STRING <Sample Name> = '';
+STRING <Path> = '';
+FILE <File> = AB, AB/INTEG;
+FILE <$ResultFile 1> = AB;
+NUMERIC <Factor> = 1;
+STRING <Operation> ='';
+
+STRING <Path> = '';
+
+PROGRAM SECTION
+
+REM this macro performs simple operations on multiple spectra
+
+<Operation>[0]='/';
+<Operation>[1]='*';
+<Operation>[2]='-';
+<Operation>[3]='+';
+
+<Path>=GetMacroPath ();
+
+UserDialog ('0', STANDARD, TEXT:'Choose operation to perform', COMBOBOX:<Operation>, EDIT:<Factor>, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK);
+
+StartLoop ([<File>:AB], 0);
+
+<Sample Name>[0] = GetParameter ([<File>:AB], NAM);
+<Sample Name>[1] = GetParameter ([<File>:AB], SNM);
+
+Calculator ([<File>:AB], {CDI=1, FOR='[<File>:AB]<Operation><Factor>'});
+
+EndLoop (0);
+
+Message (’An operation has finished.’, ON_SCREEN, NO_TIMEOUT);
+
+
+PARAMETER SECTION
+

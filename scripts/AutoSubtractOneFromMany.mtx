@@ -1,0 +1,23 @@
+VARIABLES SECTION
+
+FILE <File A> = AB;
+FILE <File B> = AB;
+NUMERIC <Index> = 1;
+
+PROGRAM SECTION
+
+REM this macro subtracts one spectrum from many automatically
+
+Message (’Important! Load the spectrum that you want to subtract from all the others at the end of the list.’, ON_SCREEN, NO_TIMEOUT);
+
+
+StartLoop ([<File B>:AB], 0);
+Subtract ([<File B>:Spec], ([<File A>:Spec], {SUB=3, SUN=1, SX1=4000, SX2=400});
+<Index> = <Index>+1;
+EndLoop (0);
+
+Message (’Subtraction done.’, ON_SCREEN, NO_TIMEOUT);
+
+
+PARAMETER SECTION
+

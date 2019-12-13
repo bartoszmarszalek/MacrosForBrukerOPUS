@@ -1,0 +1,32 @@
+VARIABLES SECTION
+
+STRING <Sample Name> = '';
+STRING <Save in> = '';
+FILE <File> = AB;
+
+PROGRAM SECTION
+
+REM this macro saves state of loaded files in separate files
+
+<Save in> = GetMacroPath ();
+<Save in> = '<Save in> Work';
+
+UserDialog ('0', STANDARD, FILE:[<File>:AB], EDIT:'<Save in>', BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK, BLANK);
+
+
+StartLoop ([<File>:AB], 0);
+
+<Sample Name>[0] = GetParameter ([<File>:AB], NAM);
+<Sample Name>[1] = GetParameter ([<File>:AB], SNM);
+<Sample Name>[2] = GetParameter ([<File>:AB], SFM);
+<Sample Name>[3] = GetParameter ([<File>:AB], DAT);
+
+SaveAs ([<File>:Spec], {DAP='<Save in>/state_copies <Sample Name>[1]', OEX='0', SAN='<Sample Name>[0]', COF=2,});
+
+EndLoop (0);
+
+Message (’Copies saved in <Save in>/state_copies’, ON_SCREEN, NO_TIMEOUT);
+
+
+PARAMETER SECTION
+
